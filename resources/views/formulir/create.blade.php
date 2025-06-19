@@ -15,10 +15,10 @@
         <form id="consultationForm" class="space-y-2" method="POST" action="{{ route('formulir.confirmation') }}">
             @csrf
 
-            <!-- Grid Layout untuk Form dan Textarea -->
+            <!-- Grid untuk Form dan Textarea -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-                <!-- Left Column - Form Fields -->
+                <!-- Kolom kiri - Form Fields -->
                 <div class="space-y-4">
 
                     <!-- Jenis Konsultasi -->
@@ -36,7 +36,7 @@
                         </select>
                     </div>
 
-                    <!-- Pilih Tanggal Konsultasi -->
+                    <!-- Tanggal Konsultasi -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">
                             Pilih tanggal konsultasi
@@ -92,7 +92,7 @@
                     </div>
                 </div>
 
-                <!-- Right Column - Textarea -->
+                <!-- Kolom kanan untuk Textarea -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">
                         Catatan Tambahan
@@ -105,6 +105,7 @@
         </form>
     </div>
 </div>
+
 <script>
     document.getElementById('consultationForm').addEventListener('submit', function (e) {
         const jenis = document.getElementById('jenisKonsultasi').value.trim();
@@ -113,13 +114,13 @@
         const jam = document.getElementById('jamKonsultasi').value.trim();
 
         if (!jenis || !tanggal || !konsultan || !jam) {
-            e.preventDefault(); // Mencegah form terkirim
+            e.preventDefault();
 
             Swal.fire({
                 icon: 'warning',
                 title: 'Form belum lengkap!',
                 text: 'Semua field wajib diisi kecuali catatan tambahan.',
-                confirmButtonColor: '#facc15', // warna kuning (Tailwind: yellow-400)
+                confirmButtonColor: '#facc15',
                 confirmButtonText: 'Mengerti'
             });
         }

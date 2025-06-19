@@ -182,13 +182,95 @@
                             <span class="text-xl font-bold">History Konsultasi</span>
                         </div>
 
-                        <div class="text-center py-16"style="height: calc(100% - 84px);">
-                            <div class="text-slate-400 text-lg">
-                                Belum ada history
-                            </div>
-                            <div class="text-slate-400 text-lg">
-                                janji
-                            </div>
+                        <div class="py-4"style="height: calc(100% - 84px);">
+                            @if ($history->isEmpty())
+                                <div class="text-center py-16 text-slate-400 text-lg">
+                                    Belum ada history janji
+                                </div>
+                            @else
+                                <div class="px-4 space-y-4 overflow-y-auto max-h-[320px]">
+                                    @foreach ($history as $item)
+                                        <div x-data="{ showModal: false, selected: {} }">
+                                            <div class="cursor-pointer bg-slate-50 p-4 rounded-lg shadow-sm hover:bg-slate-100 transition ursor-pointer"
+                                                @click="selected = {{ Illuminate\Support\Js::from($item) }}; showModal = true">
+                                                <div class="flex justify-between">
+                                                    <div>
+                                                        <p class="text-sm text-gray-500">Tanggal</p>
+                                                        <p class="text-base font-bold text-slate-800">{{ $item->tanggal }}
+                                                        </p>
+                                                    </div>
+                                                    <div>
+                                                        <p class="text-sm text-gray-500">Jam</p>
+                                                        <p class="text-base font-bold text-slate-800">{{ $item->jam }}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <hr class="my-3 border-gray-200">
+                                                <div class="space-y-1 text-sm text-slate-700">
+                                                    <p><span class="text-gray-500">Konsultan:</span> {{ $item->konsultan }}
+                                                    </p>
+                                                    <p><span class="text-gray-500">Jenis:</span>
+                                                        {{ $item->jenis_konsultasi }}
+                                                    </p>
+                                                    <p><span class="text-gray-500">Status:</span>
+                                                        <span
+                                                            class="font-semibold 
+                                                        {{ $item->status === 'confirmed' ? 'text-green-600' : 'text-yellow-500' }}">
+                                                            {{ ucfirst($item->status) }}
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <!-- Modal Detail History -->
+                                            <div x-show="showModal"
+                                                class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50"
+                                                style="display: none;" x-cloak>
+                                                <div @click.away="showModal = false"
+                                                    class="bg-white p-6 rounded-lg shadow-lg w-[90%] max-w-md transition">
+                                                    <h2 class="text-xl font-bold text-slate-800 mb-4">Detail Konsultasi</h2>
+
+                                                    <div class="space-y-2 text-sm text-slate-700">
+                                                        <div>
+                                                            <p class="text-gray-500">Tanggal</p>
+                                                            <p x-text="selected.tanggal" class="font-semibold"></p>
+                                                        </div>
+                                                        <div>
+                                                            <p class="text-gray-500">Jam</p>
+                                                            <p x-text="selected.jam" class="font-semibold"></p>
+                                                        </div>
+                                                        <div>
+                                                            <p class="text-gray-500">Jenis Konsultasi</p>
+                                                            <p x-text="selected.jenis_konsultasi" class="font-semibold">
+                                                            </p>
+                                                        </div>
+                                                        <div>
+                                                            <p class="text-gray-500">Konsultan</p>
+                                                            <p x-text="selected.konsultan" class="font-semibold"></p>
+                                                        </div>
+                                                        <div>
+                                                            <p class="text-gray-500">Catatan Tambahan (User)</p>
+                                                            <p x-text="selected.catatan || '-'" class="font-semibold"></p>
+                                                        </div>
+                                                        <div>
+                                                            <p class="text-gray-500">Catatan Konsultan</p>
+                                                            <p x-text="selected.catatan_konsultan || '-'"
+                                                                class="font-semibold"></p>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="flex justify-end mt-6">
+                                                        <button @click="showModal = false"
+                                                            class="px-4 py-2 text-sm font-bold bg-slate-700 text-white rounded hover:bg-slate-600">
+                                                            Tutup
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>

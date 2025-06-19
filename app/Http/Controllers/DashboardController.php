@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\JadwalKonsultan; 
+use App\Models\Reservasi;
 
 class DashboardController extends Controller 
     {
@@ -24,8 +25,11 @@ class DashboardController extends Controller
                     ];
                 });
 
+            $history = Reservasi::orderByDesc('created_at')->get();
+
             return view('dashboard', [
                 'konsultansHariIni' => $konsultansHariIni,
+                'history' => $history,
             ]);
         }
     }

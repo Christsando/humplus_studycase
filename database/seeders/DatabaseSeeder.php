@@ -17,6 +17,8 @@ class DatabaseSeeder extends Seeder
             KonsultanSeeder::class,
             JadwalKonsultanSeeder::class,
         ]);
+
+        $this->call(ReservasiSeeder::class);
     }
 
 }

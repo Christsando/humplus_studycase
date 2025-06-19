@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Models\Reservasi;
 
 class FormulirController extends Controller
 {
@@ -33,15 +34,31 @@ class FormulirController extends Controller
 
     public function submitConfirmation(Request $request)
     {
-        $data = session('last_reservation'); // Ambil dari session yang diset di confirmation()
+        $data = session('last_reservation'); // <-- gunakan key yang benar
 
-        // return redirect()->route('dashboard')
-        //     ->with('success', 'Konsultasi berhasil dikonfirmasi.')
-        //     ->with('jadwal', $data); // <- Ini penting!
+        if (!$data || !is_array($data)) {
+            return redirect()->route('formulir')->with('error', 'Data reservasi tidak ditemukan. Silakan isi ulang formulir.');
+        }
+
+        Reservasi::create([
+            'nama' => $data['nama'],
+            'booking_id' => $data['bookingId'],
+            'konsultan' => $data['konsultan'],
+            'jenis_konsultasi' => $data['jenis'],
+            'tanggal' => $data['tanggal'],
+            'jam' => $data['jam'],
+            'catatan' => $data['catatan'] ?? null,
+            'status' => 'confirmed',
+        ]);
+
+        // Simpan ke session 'jadwal' untuk ditampilkan di dashboard
+        $jadwal = session('jadwal', []);
+        $jadwal[] = $data;
+        session(['jadwal' => $jadwal]);
 
         return redirect()->route('formulir.ticket', ['id' => $data['bookingId']]);
-
     }
+
 
     public function showTicket($id)
     {
