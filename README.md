@@ -1,7 +1,4 @@
 # Human Plus Institute - Sistem Konsultasi
-
-Ini adalah aplikasi berbasis Laravel untuk sistem pemesanan dan manajemen jadwal konsultasi di Human Plus Institute. Pengguna dapat melakukan reservasi konsultasi, melihat riwayat konsultasi, dan melihat detail pemesanan.
-
 ## Fitur Utama
 
 - Formulir pemesanan konsultasi
